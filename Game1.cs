@@ -16,7 +16,7 @@ namespace Game1
         Player mPlayerSprite;
         Background mBackgroundSprite;
 
-        List<Enemy> mEnemyList = new List<Enemy>();
+        Enemy[][] mEnemyArray = new Enemy[5][];
 
         public Game1()
         {
@@ -36,7 +36,17 @@ namespace Game1
             mPlayerSprite = new Player(graphics.GraphicsDevice);
             mBackgroundSprite = new Background(graphics.GraphicsDevice);
 
-            mEnemyList.Add(new Enemy(graphics.GraphicsDevice, mPlayerSprite));
+            for (int j = 0; j < mEnemyArray.Length; ++j)
+            {
+                mEnemyArray[j] = new Enemy[11];
+            }
+            for (int j=0; j<mEnemyArray.Length; ++j)
+            {
+                for (int k=0; k<mEnemyArray[j].Length; ++k)
+                {
+                    mEnemyArray[j][k] = new Enemy(graphics.GraphicsDevice, mPlayerSprite);
+                }
+            }
 
             base.Initialize();
         }
@@ -54,9 +64,12 @@ namespace Game1
             mPlayerSprite.LoadContent(this.Content);
             mBackgroundSprite.LoadContent(this.Content);
 
-            foreach (Enemy enemy in mEnemyList)
+            for (int j = 0; j < mEnemyArray.Length; ++j)
             {
-                enemy.LoadContent(this.Content);
+                for (int k = 0; k < mEnemyArray[j].Length; ++k)
+                {
+                    mEnemyArray[j][k].LoadContent(this.Content);
+                }
             }
         }
 
@@ -84,24 +97,29 @@ namespace Game1
             mBackgroundSprite.Update(gameTime);
 
             // Basic management of enemies and collision of bullets
-            List<Enemy> deadEnemy = new List<Enemy>();
+            List<EnemyCoord> deadEnemies = new List<EnemyCoord>();
 
-            foreach (Enemy enemy in mEnemyList)
+            for (int j = 0; j < mEnemyArray.Length; ++j)
             {
-                enemy.Update(gameTime);
-
-                foreach (Bullet bullet in mPlayerSprite.mBullets)
+                for (int k = 0; k < mEnemyArray[j].Length; ++k)
                 {
-                    if (enemy.Size.Contains(bullet.Position.X + bullet.FrameSize / 2, bullet.Position.Y))
+                    if (mEnemyArray[j][k] != null)
                     {
-                        deadEnemy.Add(enemy);
+                        mEnemyArray[j][k].Update(gameTime);
+                        foreach (Bullet bullet in mPlayerSprite.mBullets)
+                        {
+                            if (mEnemyArray[j][k].Size.Contains(bullet.Position.X + bullet.FrameSize / 2, bullet.Position.Y))
+                            {
+                                deadEnemies.Add(new EnemyCoord(j, k));
+                            }
+                        }
                     }
                 }
             }
 
-            foreach (Enemy enemy in deadEnemy)
+            foreach (EnemyCoord coord in deadEnemies)
             {
-                mEnemyList.Remove(enemy);
+                mEnemyArray[coord.X][coord.Y] = null;
             }
 
             base.Update(gameTime);
@@ -120,9 +138,15 @@ namespace Game1
 
             spriteBatch.Begin();
 
-            foreach (Enemy enemy in mEnemyList)
+            for (int j=0; j<mEnemyArray.Length; ++j)
             {
-                enemy.Draw(this.spriteBatch);
+                for (int k=0; k<mEnemyArray[j].Length; ++k)
+                {
+                    if (mEnemyArray[j][k] != null)
+                    {
+                        mEnemyArray[j][k].Draw(this.spriteBatch);
+                    }
+                }
             }
 
             mPlayerSprite.Draw(this.spriteBatch);

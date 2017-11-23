@@ -18,6 +18,7 @@ namespace Game1
         const int START_POSITION_Y = 0;
         const int ENEMY_SPEED = 80;
         const int MOVE_DOWN = 1;
+        const int MOVE_RIGHT = 1;
 
         const int FRAME_COUNT = 3;
         TimeSpan FrameLength = TimeSpan.FromSeconds(0.25 / (double)FRAME_COUNT);
@@ -33,7 +34,7 @@ namespace Game1
 
         public Enemy(GraphicsDevice gDevice, Player playerReference)
         {
-            mDirection = new Vector2(0, MOVE_DOWN);
+            mDirection = new Vector2(MOVE_RIGHT, 0);
             mSpeed = new Vector2(0, ENEMY_SPEED);
 
             playerRef = playerReference;
