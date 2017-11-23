@@ -14,8 +14,8 @@ namespace Game1
     class Enemy : Sprite
     {
         const string ENEMY_ASSETNAME = "enemy1_strip3";
-        const int START_POSITION_X = 125;
-        const int START_POSITION_Y = 0;
+        int START_POSITION_X = 125;
+        int START_POSITION_Y = 0;
         const int ENEMY_SPEED = 80;
         const int MOVE_DOWN = 1;
         const int MOVE_RIGHT = 1;
@@ -41,6 +41,21 @@ namespace Game1
 
             graphicsDevice = gDevice;
             FrameSize = 32;
+        }
+
+        public Enemy(GraphicsDevice gDevice, Player playerReference, int j, int k)
+        {
+            mDirection = new Vector2(MOVE_RIGHT, 0);
+            mSpeed = new Vector2(0, ENEMY_SPEED);
+
+            playerRef = playerReference;
+
+            graphicsDevice = gDevice;
+            FrameSize = 32;
+
+            // Set the start position according to the height of the viewport
+            START_POSITION_X = (k * FrameSize) + 16*k;
+            START_POSITION_Y = (j * FrameSize) + 16*j;
         }
 
         public void LoadContent(ContentManager theContentManager)

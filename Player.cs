@@ -39,6 +39,7 @@ namespace Game1
         GamePadState mPreviousGamepadState;
 
         public List<Bullet> mBullets = new List<Bullet>();
+        public List<Bullet> mDeadBullets = new List<Bullet>();
         ContentManager mContentManager;
         private sbyte bulletFlip = 1;
 

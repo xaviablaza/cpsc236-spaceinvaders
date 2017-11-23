@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
-using System;
 
 namespace Game1
 {
@@ -44,9 +43,12 @@ namespace Game1
             {
                 for (int k=0; k<mEnemyArray[j].Length; ++k)
                 {
-                    mEnemyArray[j][k] = new Enemy(graphics.GraphicsDevice, mPlayerSprite);
+                    mEnemyArray[j][k] = new Enemy(graphics.GraphicsDevice, mPlayerSprite, j, k);
                 }
             }
+
+            // Make the window full screen
+            //graphics.ToggleFullScreen();
 
             base.Initialize();
         }
@@ -111,6 +113,7 @@ namespace Game1
                             if (mEnemyArray[j][k].Size.Contains(bullet.Position.X + bullet.FrameSize / 2, bullet.Position.Y))
                             {
                                 deadEnemies.Add(new EnemyCoord(j, k));
+                                mPlayerSprite.mDeadBullets.Add(bullet);
                             }
                         }
                     }
@@ -120,6 +123,11 @@ namespace Game1
             foreach (EnemyCoord coord in deadEnemies)
             {
                 mEnemyArray[coord.X][coord.Y] = null;
+            }
+
+            foreach (Bullet bullet in mPlayerSprite.mDeadBullets)
+            {
+                mPlayerSprite.mBullets.Remove(bullet);
             }
 
             base.Update(gameTime);
