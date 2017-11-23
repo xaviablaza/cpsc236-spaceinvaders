@@ -14,11 +14,11 @@ namespace Game1
     class Player : Sprite
     {
         const string PLAYER_ASSETNAME = "myplane_strip3";
-        const int START_POSITION_X = 125;
-        const int START_POSITION_Y = 245;
+        int START_POSITION_X;
+        int START_POSITION_Y;
         const int PLAYER_SPEED = 160;
-        const int MOVE_UP = -1;
-        const int MOVE_DOWN = 1;
+        const int MOVE_UP = 0;
+        const int MOVE_DOWN = 0;
         const int MOVE_LEFT = -1;
         const int MOVE_RIGHT = 1;
 
@@ -49,6 +49,8 @@ namespace Game1
         {
             graphicsDevice = gDevice;
             FrameSize = 65;
+            START_POSITION_X = gDevice.Viewport.Width / 2;
+            START_POSITION_Y = gDevice.Viewport.Height;
         }
 
         public void LoadContent(ContentManager theContentManager)
