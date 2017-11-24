@@ -34,7 +34,7 @@ namespace Game1
 
         public Enemy(GraphicsDevice gDevice, Player playerReference)
         {
-            mDirection = new Vector2(MOVE_RIGHT, 0);
+            mDirection = new Vector2(0, MOVE_DOWN);
             mSpeed = new Vector2(0, ENEMY_SPEED);
 
             playerRef = playerReference;
@@ -45,7 +45,7 @@ namespace Game1
 
         public Enemy(GraphicsDevice gDevice, Player playerReference, int j, int k)
         {
-            mDirection = new Vector2(MOVE_RIGHT, 0);
+            mDirection = new Vector2(0, MOVE_DOWN);
             mSpeed = new Vector2(0, ENEMY_SPEED);
 
             playerRef = playerReference;
