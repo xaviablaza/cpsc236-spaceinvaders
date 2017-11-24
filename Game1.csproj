@@ -45,6 +45,7 @@
     <Compile Include="Bullet.cs" />
     <Compile Include="Enemy.cs" />
     <Compile Include="EnemyCoord.cs" />
+    <Compile Include="EnemyGroup.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Island.cs" />
     <Compile Include="Player.cs" />

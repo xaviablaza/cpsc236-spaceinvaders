@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Game1
 {
-    class Sprite
+    public class Sprite
     {
         //The current position of the Sprite
         public Vector2 Position = new Vector2(0, 0);

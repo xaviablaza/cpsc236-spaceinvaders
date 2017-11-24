@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Game1
 {
-    class Player : Sprite
+    public class Player : Sprite
     {
         const string PLAYER_ASSETNAME = "myplane_strip3";
         int START_POSITION_X;

@@ -12,10 +12,10 @@ namespace Game1
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        Player mPlayerSprite;
+        public Player mPlayerSprite;
         Background mBackgroundSprite;
 
-        Enemy[][] mEnemyArray = new Enemy[5][];
+        EnemyGroup mEnemyGroup;
 
         public Game1()
         {
@@ -34,18 +34,7 @@ namespace Game1
             // TODO: Add your initialization logic here
             mPlayerSprite = new Player(graphics.GraphicsDevice);
             mBackgroundSprite = new Background(graphics.GraphicsDevice);
-
-            for (int j = 0; j < mEnemyArray.Length; ++j)
-            {
-                mEnemyArray[j] = new Enemy[11];
-            }
-            for (int j=0; j<mEnemyArray.Length; ++j)
-            {
-                for (int k=0; k<mEnemyArray[j].Length; ++k)
-                {
-                    mEnemyArray[j][k] = new Enemy(graphics.GraphicsDevice, mPlayerSprite, j, k);
-                }
-            }
+            mEnemyGroup = new EnemyGroup(graphics.GraphicsDevice, this);
 
             // Make the window full screen
             //graphics.ToggleFullScreen();
@@ -65,14 +54,7 @@ namespace Game1
             // TODO: use this.Content to load your game content here
             mPlayerSprite.LoadContent(this.Content);
             mBackgroundSprite.LoadContent(this.Content);
-
-            for (int j = 0; j < mEnemyArray.Length; ++j)
-            {
-                for (int k = 0; k < mEnemyArray[j].Length; ++k)
-                {
-                    mEnemyArray[j][k].LoadContent(this.Content);
-                }
-            }
+            mEnemyGroup.LoadContent(this.Content);
         }
 
         /// <summary>
@@ -97,38 +79,7 @@ namespace Game1
             // TODO: Add your update logic here
             mPlayerSprite.Update(gameTime);
             mBackgroundSprite.Update(gameTime);
-
-            // Basic management of enemies and collision of bullets
-            List<EnemyCoord> deadEnemies = new List<EnemyCoord>();
-
-            for (int j = 0; j < mEnemyArray.Length; ++j)
-            {
-                for (int k = 0; k < mEnemyArray[j].Length; ++k)
-                {
-                    if (mEnemyArray[j][k] != null)
-                    {
-                        mEnemyArray[j][k].Update(gameTime);
-                        foreach (Bullet bullet in mPlayerSprite.mBullets)
-                        {
-                            if (mEnemyArray[j][k].Size.Contains(bullet.Position.X + bullet.FrameSize / 2, bullet.Position.Y))
-                            {
-                                deadEnemies.Add(new EnemyCoord(j, k));
-                                mPlayerSprite.mDeadBullets.Add(bullet);
-                            }
-                        }
-                    }
-                }
-            }
-
-            foreach (EnemyCoord coord in deadEnemies)
-            {
-                mEnemyArray[coord.X][coord.Y] = null;
-            }
-
-            foreach (Bullet bullet in mPlayerSprite.mDeadBullets)
-            {
-                mPlayerSprite.mBullets.Remove(bullet);
-            }
+            mEnemyGroup.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -145,20 +96,8 @@ namespace Game1
             mBackgroundSprite.Draw(this.spriteBatch); // has a custom spritebatch begin method
 
             spriteBatch.Begin();
-
-            for (int j=0; j<mEnemyArray.Length; ++j)
-            {
-                for (int k=0; k<mEnemyArray[j].Length; ++k)
-                {
-                    if (mEnemyArray[j][k] != null)
-                    {
-                        mEnemyArray[j][k].Draw(this.spriteBatch);
-                    }
-                }
-            }
-
+            mEnemyGroup.Draw(this.spriteBatch);
             mPlayerSprite.Draw(this.spriteBatch);
-            
             spriteBatch.End();
 
             base.Draw(gameTime);

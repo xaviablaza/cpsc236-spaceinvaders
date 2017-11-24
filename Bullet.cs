@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Game1
 {
-    class Bullet : Sprite
+    public class Bullet : Sprite
     {
         const string BULLET_ASSETNAME = "bullet";
 
