@@ -14,6 +14,7 @@ namespace Game1
         SpriteBatch spriteBatch;
         public Player mPlayerSprite;
         Background mBackgroundSprite;
+        public Shield[] mShieldSprites;
 
         EnemyGroup mEnemyGroup;
 
@@ -35,6 +36,10 @@ namespace Game1
             mPlayerSprite = new Player(graphics.GraphicsDevice);
             mBackgroundSprite = new Background(graphics.GraphicsDevice);
             mEnemyGroup = new EnemyGroup(graphics.GraphicsDevice, this);
+            mShieldSprites = new Shield[3];
+            mShieldSprites[0] = new Shield(graphics.GraphicsDevice, Shield.ShieldType.LEFT);
+            mShieldSprites[1] = new Shield(graphics.GraphicsDevice, Shield.ShieldType.MID);
+            mShieldSprites[2] = new Shield(graphics.GraphicsDevice, Shield.ShieldType.RIGHT);
 
             // Make the window full screen
             //graphics.ToggleFullScreen();
@@ -55,6 +60,10 @@ namespace Game1
             mPlayerSprite.LoadContent(this.Content);
             mBackgroundSprite.LoadContent(this.Content);
             mEnemyGroup.LoadContent(this.Content);
+            foreach (Shield shield in mShieldSprites)
+            {
+                shield.LoadContent(this.Content);
+            }
         }
 
         /// <summary>
@@ -77,9 +86,14 @@ namespace Game1
                 Exit();
 
             // TODO: Add your update logic here
+            foreach (Shield shield in mShieldSprites)
+            {
+                shield.Update(gameTime);
+            }
             mPlayerSprite.Update(gameTime);
             mBackgroundSprite.Update(gameTime);
             mEnemyGroup.Update(gameTime);
+            
 
             base.Update(gameTime);
         }
@@ -98,6 +112,10 @@ namespace Game1
             spriteBatch.Begin();
             mEnemyGroup.Draw(this.spriteBatch);
             mPlayerSprite.Draw(this.spriteBatch);
+            foreach (Shield shield in mShieldSprites)
+            {
+                shield.Draw(this.spriteBatch);
+            }
             spriteBatch.End();
 
             base.Draw(gameTime);
