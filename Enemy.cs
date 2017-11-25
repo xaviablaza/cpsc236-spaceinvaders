@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using static Game1.EnemyGroup;
 
 namespace Game1
 {
@@ -19,6 +20,7 @@ namespace Game1
         const int ENEMY_SPEED = 80;
         const int MOVE_DOWN = 1;
         const int MOVE_RIGHT = 1;
+        const int MOVE_LEFT = -1;
 
         const int FRAME_COUNT = 3;
         TimeSpan FrameLength = TimeSpan.FromSeconds(0.25 / (double)FRAME_COUNT);
@@ -34,7 +36,6 @@ namespace Game1
 
         public Enemy(GraphicsDevice gDevice, Player playerReference)
         {
-            mDirection = new Vector2(0, MOVE_DOWN);
             mSpeed = new Vector2(0, ENEMY_SPEED);
 
             playerRef = playerReference;
@@ -45,7 +46,6 @@ namespace Game1
 
         public Enemy(GraphicsDevice gDevice, Player playerReference, int j, int k)
         {
-            mDirection = new Vector2(0, MOVE_DOWN);
             mSpeed = new Vector2(0, ENEMY_SPEED);
 
             playerRef = playerReference;
@@ -76,22 +76,36 @@ namespace Game1
                 Color.White, 0.0f, Vector2.Zero, Scale, SpriteEffects.None, 0);
         }
 
-        public void Update(GameTime theGameTime)
+        public void Update(GameTime theGameTime, MoveDirection moveDirection)
         {
             Size.X = (int)Position.X;
             Size.Y = (int)Position.Y;
 
-            base.Update(theGameTime, mSpeed, mDirection);
-
-            FrameTimer += theGameTime.ElapsedGameTime;
-            if (FrameTimer >= FrameLength)
+            switch (moveDirection)
             {
-                FrameTimer = TimeSpan.Zero;
-                FrameNum = (FrameNum + 1) % FRAME_COUNT;
-            }
+                case MoveDirection.RIGHT:
+                    mSpeed.X = ENEMY_SPEED;
+                    mDirection.X = MOVE_RIGHT;
+                    mSpeed.Y = 0;
+                    mDirection.Y = 0;
+                    base.Update(theGameTime, mSpeed, mDirection);
+                    break;
+                case MoveDirection.LEFT:
+                    mSpeed.X = ENEMY_SPEED;
+                    mDirection.X = MOVE_LEFT;
+                    mSpeed.Y = 0;
+                    mDirection.Y = 0;
+                    base.Update(theGameTime, mSpeed, mDirection);
+                    break;
+                case MoveDirection.DOWN:
+                    mSpeed.Y = ENEMY_SPEED;
+                    mDirection.Y = MOVE_DOWN;
+                    mSpeed.X = 0;
+                    mDirection.X = 0;
+                    base.Update(theGameTime, mSpeed, mDirection);
+                    break;
 
-            if (FrameNum >= FRAME_COUNT)
-                FrameNum = 0;
+            }
         }
     }
 }
