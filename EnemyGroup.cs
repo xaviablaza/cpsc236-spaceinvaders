@@ -44,11 +44,22 @@ namespace Game1
             {
                 mEnemyArray[j] = new Enemy[11];
             }
-            for (int j = 0; j < mEnemyArray.Length; ++j)
+            for (int j=0;j<mEnemyArray[0].Length; ++j)
+            {
+                mEnemyArray[0][j] = new Enemy(graphicsDevice, game.mPlayerSprite, 0, j, "invader1");
+            }
+            for (int j = 1; j < 3; ++j)
             {
                 for (int k = 0; k < mEnemyArray[j].Length; ++k)
                 {
-                    mEnemyArray[j][k] = new Enemy(graphicsDevice, game.mPlayerSprite, j, k);
+                    mEnemyArray[j][k] = new Enemy(graphicsDevice, game.mPlayerSprite, j, k, "invader2");
+                }
+            }
+            for (int j = 3; j <5; ++j)
+            {
+                for (int k = 0; k < mEnemyArray[j].Length; ++k)
+                {
+                    mEnemyArray[j][k] = new Enemy(graphicsDevice, game.mPlayerSprite, j, k, "invader3");
                 }
             }
         }
@@ -114,6 +125,17 @@ namespace Game1
                                 {
                                     deadEnemies.Add(new EnemyCoord(k, j));
                                     game.mPlayerSprite.mDeadBullets.Add(bullet);
+                                    if (mEnemyArray[k][j].ENEMY_ASSETNAME == "invader1")
+                                    {
+                                        game.score += 30;
+                                    } else if (mEnemyArray[k][j].ENEMY_ASSETNAME == "invader2")
+                                    {
+                                        game.score += 20;
+                                    }
+                                    else if (mEnemyArray[k][j].ENEMY_ASSETNAME == "invader3")
+                                    {
+                                        game.score += 10;
+                                    }
                                 }
                             }
                             killed = false;

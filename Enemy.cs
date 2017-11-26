@@ -14,7 +14,7 @@ namespace Game1
 {
     class Enemy : Sprite
     {
-        const string ENEMY_ASSETNAME = "enemy1_strip3";
+        public string ENEMY_ASSETNAME = "invader1";
         int START_POSITION_X = 125;
         int START_POSITION_Y = 0;
         const int ENEMY_SPEED = 80;
@@ -44,7 +44,7 @@ namespace Game1
             FrameSize = 32;
         }
 
-        public Enemy(GraphicsDevice gDevice, Player playerReference, int j, int k)
+        public Enemy(GraphicsDevice gDevice, Player playerReference, int j, int k, String assetName)
         {
             mSpeed = new Vector2(0, ENEMY_SPEED);
 
@@ -56,6 +56,7 @@ namespace Game1
             // Set the start position according to the height of the viewport
             START_POSITION_X = (k * FrameSize) + 16*k;
             START_POSITION_Y = (j * FrameSize) + 16*j;
+            ENEMY_ASSETNAME = assetName;
         }
 
         public void LoadContent(ContentManager theContentManager)
@@ -105,16 +106,6 @@ namespace Game1
                     base.Update(theGameTime, mSpeed, mDirection);
                     break;
             }
-
-            FrameTimer += theGameTime.ElapsedGameTime;
-            if (FrameTimer >= FrameLength)
-            {
-                FrameTimer = TimeSpan.Zero;
-                FrameNum = (FrameNum + 1) % FRAME_COUNT;
-            }
-
-            if (FrameNum >= FRAME_COUNT)
-                FrameNum = 0;
         }
     }
 }

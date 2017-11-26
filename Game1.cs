@@ -19,6 +19,7 @@ namespace Game1
         EnemyGroup mEnemyGroup;
         public WinState winState;
         private SpriteFont font;
+        public int score = 0;
 
         public enum WinState
         {
@@ -128,6 +129,7 @@ namespace Game1
                 }
                 mEnemyGroup.Draw(this.spriteBatch);
                 mPlayerSprite.Draw(this.spriteBatch);
+                spriteBatch.DrawString(font, "Score: " + score, new Vector2(0, 0), Color.White);
                 spriteBatch.End();
                 base.Draw(gameTime);
             } else if (winState == WinState.GAME_OVER)
