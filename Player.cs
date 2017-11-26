@@ -13,7 +13,7 @@ namespace Game1
 {
     public class Player : Sprite
     {
-        const string PLAYER_ASSETNAME = "myplane_strip3";
+        const string PLAYER_ASSETNAME = "playerplane";
         int START_POSITION_X;
         int START_POSITION_Y;
         const int PLAYER_SPEED = 160;
@@ -48,7 +48,7 @@ namespace Game1
         public Player(GraphicsDevice gDevice)
         {
             graphicsDevice = gDevice;
-            FrameSize = 65;
+            FrameSize = 94;
             START_POSITION_X = gDevice.Viewport.Width / 2;
             START_POSITION_Y = gDevice.Viewport.Height;
         }
@@ -115,7 +115,7 @@ namespace Game1
             }
             /* End player off screen correction */
 
-            FrameTimer += theGameTime.ElapsedGameTime;
+            /*FrameTimer += theGameTime.ElapsedGameTime;
             if (FrameTimer >= FrameLength)
             {
                 FrameTimer = TimeSpan.Zero;
@@ -123,7 +123,7 @@ namespace Game1
             }
 
             if (FrameNum >= FRAME_COUNT)
-                FrameNum = 0;
+                FrameNum = 0;*/
         }
 
         private void UpdateMovement(KeyboardState aCurrentKeyboardState)
