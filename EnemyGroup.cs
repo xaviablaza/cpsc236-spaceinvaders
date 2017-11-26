@@ -15,6 +15,11 @@ namespace Game1
         Enemy[][] mEnemyArray = new Enemy[5][];
         GraphicsDevice graphicsDevice;
         private Game1 game;
+
+        public List<Bullet> mBullets = new List<Bullet>();
+        public List<Bullet> mDeadBullets = new List<Bullet>();
+        ContentManager mContentManager;
+
         public MoveDirection moveDirection { get; set; }
         public EdgeTouch edgeTouch { get; set; }
 
@@ -49,6 +54,7 @@ namespace Game1
 
         public void LoadContent(ContentManager content)
         {
+            mContentManager = content;
             for (int j = 0; j < mEnemyArray.Length; ++j)
             {
                 for (int k = 0; k < mEnemyArray[j].Length; ++k)
@@ -60,15 +66,31 @@ namespace Game1
 
         public void Update(GameTime gameTime)
         {
+            // Update the bullets already fired
+            foreach (Bullet aBullet in mBullets)
+            {
+                aBullet.Update(gameTime);
+            }
+
+            // Shoot new bullets
+            if (new Random().Next(100) > 50)
+            {
+                Enemy enemy = mEnemyArray[new Random().Next(5)][new Random().Next(11)];
+                if (enemy != null)
+                {
+                    ShootBullet(enemy);
+                }
+            }
+
             // Basic management of enemies and collision of bullets
             List<EnemyCoord> deadEnemies = new List<EnemyCoord>();
 
             // Checking the move direction of the enemy group
             if (moveDirection == MoveDirection.RIGHT)
             {
-                for (int j=10; j>=0; --j)
+                for (int j = 10; j >= 0; --j)
                 {
-                    for (int k=4; k>=0; --k)
+                    for (int k = 4; k >= 0; --k)
                     {
                         if (mEnemyArray[k][j] != null)
                         {
@@ -158,25 +180,6 @@ namespace Game1
                 }
             }
 
-            /*for (int j = 0; j < mEnemyArray.Length; ++j)
-            {
-                for (int k = 0; k < mEnemyArray[j].Length; ++k)
-                {
-                    if (mEnemyArray[j][k] != null)
-                    {
-                        mEnemyArray[j][k].Update(gameTime);
-                        foreach (Bullet bullet in game.mPlayerSprite.mBullets)
-                        {
-                            if (mEnemyArray[j][k].Size.Contains(bullet.Position.X + bullet.FrameSize / 2, bullet.Position.Y))
-                            {
-                                deadEnemies.Add(new EnemyCoord(j, k));
-                                game.mPlayerSprite.mDeadBullets.Add(bullet);
-                            }
-                        }
-                    }
-                }
-            }*/
-
             // Remove dead enemies from the enemy array
             foreach (EnemyCoord coord in deadEnemies)
             {
@@ -192,6 +195,13 @@ namespace Game1
 
         public void Draw(SpriteBatch spriteBatch)
         {
+            // Draw enemy bulllets
+            foreach (Bullet aBullet in mBullets)
+            {
+                aBullet.Draw(spriteBatch);
+            }
+
+            // Draw the enemies
             for (int j = 0; j < mEnemyArray.Length; ++j)
             {
                 for (int k = 0; k < mEnemyArray[j].Length; ++k)
@@ -202,6 +212,19 @@ namespace Game1
                     }
                 }
             }
+        }
+
+        private void ShootBullet(Enemy enemy)
+        {
+            for (int i = 0; i < mBullets.Count; i++)
+            {
+                if (mBullets[i].Position.Y > graphicsDevice.Viewport.Height)
+                    mBullets.RemoveAt(i);
+            }
+            Bullet aBullet = new Bullet();
+            aBullet.LoadContent(mContentManager);
+            aBullet.Fire(enemy.Position - new Vector2((enemy.FrameSize / 2 - aBullet.Size.Width / 2), 12), new Vector2(200, 200), new Vector2(0, 1));
+            mBullets.Add(aBullet);
         }
     }
 }
