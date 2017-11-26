@@ -12,11 +12,20 @@ namespace Game1
 {
     public class Bullet : Sprite
     {
-        const string BULLET_ASSETNAME = "bullet";
+        string BULLET_ASSETNAME = "bullet";
 
         Vector2 mDirection;
         Vector2 mSpeed;
         Vector2 mStartPosition;
+
+        public Bullet()
+        {
+        }
+
+        public Bullet(String assetName)
+        {
+            BULLET_ASSETNAME = assetName;
+        }
 
         public void LoadContent(ContentManager theContentManager)
         {

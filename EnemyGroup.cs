@@ -77,6 +77,11 @@ namespace Game1
             if (new Random().Next(100) > 75)
             {
                 Enemy enemy = mEnemyArray[new Random().Next(5)][new Random().Next(11)];
+
+                if (new Random().Next(100) <= 75)
+                {
+                    enemy = mEnemyArray[0][new Random().Next(6)];
+                }
                 if (enemy != null)
                 {
                     ShootBullet(enemy);
@@ -124,7 +129,7 @@ namespace Game1
                         if (mEnemyArray[k][j] != null)
                         {
                             // Check if moved one enemy down
-                            if ((int)mEnemyArray[k][j].Position.Y % 20 == 0)
+                            if ((int)mEnemyArray[k][j].Position.Y % 8 == 0)
                             {
                                 // Check if enemy is touching right side of screen
                                 if (edgeTouch == EdgeTouch.RIGHT)
@@ -240,7 +245,7 @@ namespace Game1
                 if (mBullets[i].Position.Y > graphicsDevice.Viewport.Height)
                     mBullets.RemoveAt(i);
             }
-            Bullet aBullet = new Bullet();
+            Bullet aBullet = new Bullet("laser");
             aBullet.LoadContent(mContentManager);
             aBullet.Fire(enemy.Position - new Vector2((enemy.FrameSize / 2 - aBullet.Size.Width / 2), 12), new Vector2(200, 200), new Vector2(0, 1));
             mBullets.Add(aBullet);
