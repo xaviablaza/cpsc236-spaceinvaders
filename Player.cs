@@ -51,6 +51,8 @@ namespace Game1
             FrameSize = 65;
             START_POSITION_X = gDevice.Viewport.Width / 2;
             START_POSITION_Y = gDevice.Viewport.Height;
+            Size.X = 65;
+            Size.Y = 65;
         }
 
         public void LoadContent(ContentManager theContentManager)
@@ -112,9 +114,6 @@ namespace Game1
                 Position.Y = 0;
             }
             /* End player off screen correction */
-
-            Size.X = 65;
-            Size.Y = 65;
 
             FrameTimer += theGameTime.ElapsedGameTime;
             if (FrameTimer >= FrameLength)
