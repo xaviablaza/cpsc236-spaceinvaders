@@ -80,6 +80,8 @@ namespace Game1
 
         public void Update(GameTime theGameTime)
         {
+            Size.X = (int)Position.X;
+            Size.Y = (int)Position.Y;
             KeyboardState aCurrentKeyboardState = Keyboard.GetState();
             GamePadState aCurrentGamepadState = GamePad.GetState(PlayerIndex.One);
 
@@ -112,9 +114,6 @@ namespace Game1
                 Position.Y = 0;
             }
             /* End player off screen correction */
-
-            Size.X = 65;
-            Size.Y = 65;
 
             FrameTimer += theGameTime.ElapsedGameTime;
             if (FrameTimer >= FrameLength)
