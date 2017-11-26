@@ -17,7 +17,7 @@ namespace Game1
         const string ENEMY_ASSETNAME = "enemy1_strip3";
         int START_POSITION_X = 125;
         int START_POSITION_Y = 0;
-        const int ENEMY_SPEED = 40;
+        const int ENEMY_SPEED = 80;
         const int MOVE_DOWN = 1;
         const int MOVE_RIGHT = 1;
         const int MOVE_LEFT = -1;
@@ -104,8 +104,17 @@ namespace Game1
                     mDirection.X = 0;
                     base.Update(theGameTime, mSpeed, mDirection);
                     break;
-
             }
+
+            FrameTimer += theGameTime.ElapsedGameTime;
+            if (FrameTimer >= FrameLength)
+            {
+                FrameTimer = TimeSpan.Zero;
+                FrameNum = (FrameNum + 1) % FRAME_COUNT;
+            }
+
+            if (FrameNum >= FRAME_COUNT)
+                FrameNum = 0;
         }
     }
 }

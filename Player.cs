@@ -113,6 +113,9 @@ namespace Game1
             }
             /* End player off screen correction */
 
+            Size.X = 65;
+            Size.Y = 65;
+
             FrameTimer += theGameTime.ElapsedGameTime;
             if (FrameTimer >= FrameLength)
             {

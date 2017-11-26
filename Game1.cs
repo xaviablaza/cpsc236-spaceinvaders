@@ -17,11 +17,19 @@ namespace Game1
         public Shield[] mShieldSprites;
 
         EnemyGroup mEnemyGroup;
+        public WinState winState;
+        private SpriteFont font;
+
+        public enum WinState
+        {
+            VICTORY, PLAYING, GAME_OVER
+        }
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            winState = WinState.PLAYING;
         }
 
         /// <summary>
@@ -64,6 +72,8 @@ namespace Game1
             {
                 shield.LoadContent(this.Content);
             }
+
+            font = Content.Load<SpriteFont>("GameText");
         }
 
         /// <summary>
@@ -104,21 +114,35 @@ namespace Game1
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(new Color(0, 0, 0));
 
             // TODO: Add your drawing code here
-            mBackgroundSprite.Draw(this.spriteBatch); // has a custom spritebatch begin method
+            //mBackgroundSprite.Draw(this.spriteBatch); // has a custom spritebatch begin method
 
-            spriteBatch.Begin();
-            foreach (Shield shield in mShieldSprites)
+            if (winState == WinState.PLAYING)
             {
-                shield.Draw(this.spriteBatch);
+                spriteBatch.Begin();
+                foreach (Shield shield in mShieldSprites)
+                {
+                    shield.Draw(this.spriteBatch);
+                }
+                mEnemyGroup.Draw(this.spriteBatch);
+                mPlayerSprite.Draw(this.spriteBatch);
+                spriteBatch.End();
+                base.Draw(gameTime);
+            } else if (winState == WinState.GAME_OVER)
+            {
+                spriteBatch.Begin();
+                spriteBatch.DrawString(font, "GAME OVER\npress ESC to quit.", new Vector2(100, 100), Color.White);
+                spriteBatch.End();
             }
-            mEnemyGroup.Draw(this.spriteBatch);
-            mPlayerSprite.Draw(this.spriteBatch);
-            spriteBatch.End();
+            else if (winState == WinState.VICTORY)
+            {
+                spriteBatch.Begin();
+                spriteBatch.DrawString(font, "You won!\npress ESC to quit.", new Vector2(100, 100), Color.White);
+                spriteBatch.End();
+            }
 
-            base.Draw(gameTime);
         }
     }
 }

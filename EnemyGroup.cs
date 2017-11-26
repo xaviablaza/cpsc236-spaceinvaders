@@ -90,7 +90,7 @@ namespace Game1
 
             // Basic management of enemies and collision of bullets
             List<EnemyCoord> deadEnemies = new List<EnemyCoord>();
-
+            bool killed = true;
             // Checking the move direction of the enemy group
             if (moveDirection == MoveDirection.RIGHT)
             {
@@ -116,6 +116,7 @@ namespace Game1
                                     game.mPlayerSprite.mDeadBullets.Add(bullet);
                                 }
                             }
+                            killed = false;
                         }
                     }
                 }
@@ -153,6 +154,7 @@ namespace Game1
                                     game.mPlayerSprite.mDeadBullets.Add(bullet);
                                 }
                             }
+                            killed = false;
                         }
                     }
                 }
@@ -181,9 +183,15 @@ namespace Game1
                                     game.mPlayerSprite.mDeadBullets.Add(bullet);
                                 }
                             }
+                            killed = false;
                         }
                     }
                 }
+            }
+
+            if (killed)
+            {
+                game.winState = Game1.WinState.VICTORY;
             }
 
             // Remove dead enemies from the enemy array
@@ -192,7 +200,7 @@ namespace Game1
                 mEnemyArray[coord.X][coord.Y] = null;
             }
 
-            // Check if bullets have touched shield
+            // Check if enemy bullets have touched shield
             foreach (Bullet bullet in mBullets)
             {
                 foreach (Shield shield in game.mShieldSprites)
@@ -201,6 +209,12 @@ namespace Game1
                     {
                         mDeadBullets.Add(bullet);
                     }
+                }
+                // Check if enemy bullets have touched the player
+                if (game.mPlayerSprite.Size.Contains(bullet.Position.X + bullet.FrameSize / 2, bullet.Position.Y))
+                {
+                    mDeadBullets.Add(bullet);
+                    game.winState = Game1.WinState.GAME_OVER;
                 }
             }
 
