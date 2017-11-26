@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using System.Diagnostics;
 
 namespace Game1
 {
@@ -73,7 +74,7 @@ namespace Game1
             }
 
             // Shoot new bullets
-            if (new Random().Next(100) > 50)
+            if (new Random().Next(100) > 75)
             {
                 Enemy enemy = mEnemyArray[new Random().Next(5)][new Random().Next(11)];
                 if (enemy != null)
@@ -186,10 +187,28 @@ namespace Game1
                 mEnemyArray[coord.X][coord.Y] = null;
             }
 
+            // Check if bullets have touched shield
+            foreach (Bullet bullet in mBullets)
+            {
+                foreach (Shield shield in game.mShieldSprites)
+                {
+                    if (shield.Size.Contains(bullet.Position.X + bullet.FrameSize / 2, bullet.Position.Y))
+                    {
+                        mDeadBullets.Add(bullet);
+                    }
+                }
+            }
+
             // Remove bullets that have been hit by the enemy from the player sprite
             foreach (Bullet bullet in game.mPlayerSprite.mDeadBullets)
             {
                 game.mPlayerSprite.mBullets.Remove(bullet);
+            }
+
+            // Remove bullets that collided with the shield
+            foreach (Bullet bullet in mDeadBullets)
+            {
+                mBullets.Remove(bullet);
             }
         }
 

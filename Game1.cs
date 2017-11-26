@@ -110,12 +110,12 @@ namespace Game1
             mBackgroundSprite.Draw(this.spriteBatch); // has a custom spritebatch begin method
 
             spriteBatch.Begin();
-            mEnemyGroup.Draw(this.spriteBatch);
-            mPlayerSprite.Draw(this.spriteBatch);
             foreach (Shield shield in mShieldSprites)
             {
                 shield.Draw(this.spriteBatch);
             }
+            mEnemyGroup.Draw(this.spriteBatch);
+            mPlayerSprite.Draw(this.spriteBatch);
             spriteBatch.End();
 
             base.Draw(gameTime);

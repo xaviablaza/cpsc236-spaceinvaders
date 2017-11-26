@@ -63,13 +63,13 @@ namespace Game1
 
         public override void Draw(SpriteBatch theSpriteBatch)
         {
-            theSpriteBatch.Draw(mSpriteTexture, Position,
-                new Rectangle(0 + (FrameSize * FrameNum), 0, FrameSize, mSpriteTexture.Height),
-                Color.White, 0.0f, Vector2.Zero, Scale, SpriteEffects.None, 0);
+            base.Draw(theSpriteBatch);
         }
 
         public void Update(GameTime theGameTime)
         {
+            Size.X = (int)Position.X;
+            Size.Y = (int)Position.Y;
             base.Update(theGameTime, mSpeed, mDirection);
         }
     }
