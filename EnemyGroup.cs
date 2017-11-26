@@ -174,6 +174,18 @@ namespace Game1
                                 {
                                     deadEnemies.Add(new EnemyCoord(k, j));
                                     game.mPlayerSprite.mDeadBullets.Add(bullet);
+                                    if (mEnemyArray[k][j].ENEMY_ASSETNAME == "invader1")
+                                    {
+                                        game.score += 30;
+                                    }
+                                    else if (mEnemyArray[k][j].ENEMY_ASSETNAME == "invader2")
+                                    {
+                                        game.score += 20;
+                                    }
+                                    else if (mEnemyArray[k][j].ENEMY_ASSETNAME == "invader3")
+                                    {
+                                        game.score += 10;
+                                    }
                                 }
                             }
                             killed = false;
@@ -203,6 +215,18 @@ namespace Game1
                                 {
                                     deadEnemies.Add(new EnemyCoord(k, j));
                                     game.mPlayerSprite.mDeadBullets.Add(bullet);
+                                    if (mEnemyArray[k][j].ENEMY_ASSETNAME == "invader1")
+                                    {
+                                        game.score += 30;
+                                    }
+                                    else if (mEnemyArray[k][j].ENEMY_ASSETNAME == "invader2")
+                                    {
+                                        game.score += 20;
+                                    }
+                                    else if (mEnemyArray[k][j].ENEMY_ASSETNAME == "invader3")
+                                    {
+                                        game.score += 10;
+                                    }
                                 }
                             }
                             killed = false;
